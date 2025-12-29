@@ -13,5 +13,39 @@
     <input type="file" />
     <button>Analisar planta</button>
   </main>
+[18:50, 29/12/2025] Paulo: }
+[19:00, 29/12/2025] Paulo: <body>
+  <main>
+    <h1>🌱 PlantCare</h1>
+    <p>Descubra a saúde da sua planta em segundos</p>
+
+    <input type="file" id="imageInput" accept="image/*" />
+    <br /><br />
+
+    <button onclick="analisar()">Analisar planta</button>
+
+    <p id="resultado"></p>
+  </main>
+  <script>
+    async function analisar() {
+      const fileInput = document.getElementById("imageInput");
+      const resultado = document.getElementById("resultado");
+
+      if (!fileInput.files.length) {
+        resultado.innerText = "Selecione uma imagem primeiro.";
+        return;
+      }
+
+      resultado.innerText = "Analisando...";
+
+      try {
+        const response = await fetch("/api/identify");
+        const data = await response.json();
+        resultado.innerText = data.message;
+      } catch (e) {
+        resultado.innerText = "Erro ao conectar com a API.";
+      }
+    }
+  </script>
 </body>
 </html>
